@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.cursor = 'pointer';
 
       const img = document.createElement('img');
-      img.src = macro.thumbnail;
+      img.src = `/macro-hub/${macro.thumbnail}`;
       img.alt = macro.name;
       img.loading = 'lazy';
 
