@@ -1,53 +1,91 @@
-async function loadMacros() {
-  const macroList = document.getElementById("macroList");
-  const searchInput = document.getElementById("search");
+document.addEventListener('DOMContentLoaded', () => {
+  const macroList = document.getElementById('macroList');
+  const loading = document.getElementById('loading');
+  const searchInput = document.getElementById('search');
+  const sortSelect = document.getElementById('sortSelect');
+  const themeToggle = document.getElementById('themeToggle');
 
-  // Change this to your GitHub repo username and repo name:
-  const githubUsername = "Gd-Macro-Hub";
-  const githubRepo = "macro-hub";
+  let macros = [];
 
-  // Fetch list of macro-config JSON files from GitHub API
-  const apiUrl = `https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/Main/macro-config`;
+  // Show loading spinner
+  loading.style.display = 'block';
 
-  try {
-    const response = await fetch(apiUrl);
-    if (!response.ok) throw new Error("Failed to fetch macro configs");
-    const files = await response.json();
+  // Fetch list of JSON files in macro-config directory
+  fetch('Main/macro-config/index.json')
+    .then(response => response.json())
+    .then(files => {
+      const fetchPromises = files.map(file => fetch(`Main/macro-config/${file}`).then(res => res.json()));
+      return Promise.all(fetchPromises);
+    })
+    .then(data => {
+      macros = data;
+      displayMacros(macros);
+      loading.style.display = 'none';
+    })
+    .catch(error => {
+      console.error('Error loading macros:', error);
+      loading.textContent = 'Failed to load macros.';
+    });
 
-    const jsonFiles = files.filter((file) => file.name.endsWith(".json"));
+  // Display macros
+  function displayMacros(macros) {
+    macroList.innerHTML = '';
+    macros.forEach(macro => {
+      const card = document.createElement('div');
+      card.className = 'card';
 
-    for (const file of jsonFiles) {
-      const res = await fetch(file.download_url);
-      if (!res.ok) continue;
-      const data = await res.json();
+      const img = document.createElement('img');
+      img.src = macro.thumbnail;
+      img.alt = macro.name;
+      img.loading = 'lazy';
 
-      // Create card element
-      const card = document.createElement("div");
-      card.className = "macro-card";
-      card.setAttribute("data-name", data.name.toLowerCase());
-      card.setAttribute("data-id", data.id.toLowerCase());
-      card.innerHTML = `
-        <img src="${data.thumbnail}" alt="Thumbnail" width="200" style="border-radius: 12px;" />
-        <h3>${data.name}</h3>
-        <p><strong>Creator:</strong> ${data.creator}</p>
-        <p><strong>ID:</strong> ${data.id}</p>
-        <a href="macros.html?id=${data.id}">View ➜</a>
-      `;
+      const title = document.createElement('h3');
+      title.textContent = macro.name;
+
+      const id = document.createElement('p');
+      id.textContent = `ID: ${macro.id}`;
+
+      const creator = document.createElement('p');
+      creator.textContent = `Creator: ${macro.creator}`;
+
+      const link = document.createElement('a');
+      link.href = macro.ytlink;
+      link.textContent = 'Watch Video';
+      link.target = '_blank';
+
+      card.appendChild(img);
+      card.appendChild(title);
+      card.appendChild(id);
+      card.appendChild(creator);
+      card.appendChild(link);
+
       macroList.appendChild(card);
-    }
-  } catch (err) {
-    macroList.innerHTML = `<p>Error loading macros: ${err.message}</p>`;
+    });
   }
 
-  // Search filter
-  searchInput.addEventListener("input", () => {
-    const value = searchInput.value.toLowerCase();
-    document.querySelectorAll(".macro-card").forEach((card) => {
-      const name = card.getAttribute("data-name");
-      const id = card.getAttribute("data-id");
-      card.style.display = name.includes(value) || id.includes(value) ? "" : "none";
-    });
+  // Search functionality
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const filtered = macros.filter(macro =>
+      macro.name.toLowerCase().includes(query) ||
+      macro.id.toLowerCase().includes(query)
+    );
+    displayMacros(filtered);
   });
-}
 
-loadMacros();
+  // Sort functionality
+  sortSelect.addEventListener('change', () => {
+    const sorted = [...macros];
+    if (sortSelect.value === 'newest') {
+      sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else {
+      sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+    displayMacros(sorted);
+  });
+
+  // Theme toggle
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+  });
+});

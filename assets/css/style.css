@@ -1,42 +1,91 @@
 body {
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  color: #fff;
+  margin: 0;
   padding: 2rem;
+  transition: background 0.5s, color 0.5s;
+}
+
+body.dark {
+  background: linear-gradient(135deg, #000000, #434343);
+  color: #e0e0e0;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px #00f0ff;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+#search {
+  width: 300px;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+}
+
+#sortSelect, #themeToggle {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#loading {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
 }
 
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
+  justify-content: center;
 }
 
-.macro-card {
-  background: rgba(255, 255, 255, 0.05);
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   padding: 1rem;
-  border-radius: 16px;
-  box-shadow: 0 0 10px #0008;
-  max-width: 220px;
+  width: 200px;
   text-align: center;
-  transition: transform 0.3s ease;
-  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.macro-card:hover {
+.card:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 15px #00f0ff;
 }
 
-.macro-card h3 {
+.card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+.card h3 {
   margin: 0.5rem 0;
+  font-size: 1.2rem;
 }
 
-.macro-card a {
-  color: #00ffd5;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-input[type="text"] {
-  outline: none;
-  margin-bottom: 2.5rem; /* Added margin for spacing */
+.card p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
 }
