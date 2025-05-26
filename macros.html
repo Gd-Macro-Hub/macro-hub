@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Macro Detail</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <div id="macroDetail"></div>
+  <div id="macroDetail" style="padding: 2rem; color: white;"></div>
+
   <script>
-    const id = new URLSearchParams(window.location.search).get("id");
-    fetch(`Main/macro-config/${id}.json`)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("macroDetail").innerHTML = `
-          <h1>${data.name}</h1>
-          <img src="${data.thumbnail}" width="300">
-          <p><strong>Creator:</strong> ${data.creator}</p>
-          <p><strong>Date:</strong> ${data.date}</p>
-          <p><strong>ID:</strong> ${data.id}</p>
-          <a href="${data.macro}" download>📥 Download Macro</a><br><br>
-          <iframe width="560" height="315" src="${data.ytlink.replace("watch?v=", "embed/")}" frameborder="0" allowfullscreen></iframe>
-        `;
-      })
-      .catch(() => {
-        document.getElementById("macroDetail").innerHTML = `<h2>Macro not found.</h2>`;
-      });
+    // Get macro ID from URL ?id=abc123
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!id) {
+      document.getElementById("macroDetail").innerHTML = "<h2>No macro ID specified.</h2>";
+    } else {
+      fetch(`Main/macro-config/${id}.json`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Macro not found");
+          return res.json();
+        })
+        .then((data) => {
+          document.getElementById("macroDetail").innerHTML = `
+            <h1>${data.name}</h1>
+            <img src="${data.thumbnail}" alt="Thumbnail" style="max-width: 400px; border-radius: 12px; margin-bottom: 1rem;" />
+            <p><strong>Creator:</strong> ${data.creator}</p>
+            <p><strong>Date:</strong> ${data.date}</p>
+            <p><strong>ID:</strong> ${data.id}</p>
+            <a href="${data.macro}" download style="color: #00ffd5; font-size: 1.2rem; text-decoration: none;">📥 Download Macro</a>
+            <br /><br />
+            <iframe
+              width="560"
+              height="315"
+              src="${data.ytlink.replace('watch?v=', 'embed/')}"
+              frameborder="0"
+              allowfullscreen
+              style="border-radius: 12px;"
+            ></iframe>
+          `;
+        })
+        .catch(() => {
+          document.getElementById("macroDetail").innerHTML = "<h2>Macro not found.</h2>";
+        });
+    }
   </script>
 </body>
 </html>

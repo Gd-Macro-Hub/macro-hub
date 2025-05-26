@@ -1,18 +1,8 @@
 body {
   background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
   color: white;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 2rem;
-}
-
-input {
-  width: 400px;
-  max-width: 90%;
-  padding: 0.5rem;
-  margin: 1rem 0;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
 }
 
 .card-container {
@@ -28,15 +18,24 @@ input {
   box-shadow: 0 0 10px #0008;
   max-width: 220px;
   text-align: center;
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
-.macro-card img {
-  border-radius: 12px;
+.macro-card:hover {
+  transform: scale(1.05);
+}
+
+.macro-card h3 {
+  margin: 0.5rem 0;
 }
 
 .macro-card a {
   color: #00ffd5;
   text-decoration: none;
-  display: inline-block;
-  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+input[type="text"] {
+  outline: none;
 }
