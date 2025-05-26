@@ -5,7 +5,9 @@ body {
   padding: 2rem;
 }
 
-input, select {
+input {
+  width: 400px;
+  max-width: 90%;
   padding: 0.5rem;
   margin: 1rem 0;
   border-radius: 8px;

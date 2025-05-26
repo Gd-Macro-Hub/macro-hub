@@ -2,13 +2,13 @@ async function loadMacros() {
   const macroList = document.getElementById("macroList");
   const searchInput = document.getElementById("search");
 
-  const macroIds = ["abc123"]; // Add new IDs here
-  const macros = [];
+  const response = await fetch('https://api.github.com/repos/Gd-Macro-Hub/macro-hub/contents/Main/macro-config');
+  const files = await response.json();
+  const jsonFiles = files.filter(file => file.name.endsWith(".json"));
 
-  for (let id of macroIds) {
-    const res = await fetch(`Main/macro-config/${id}.json`);
+  for (let file of jsonFiles) {
+    const res = await fetch(file.download_url);
     const data = await res.json();
-    macros.push(data);
 
     const card = document.createElement("div");
     card.className = "macro-card";
@@ -33,5 +33,4 @@ async function loadMacros() {
     });
   });
 }
-
 loadMacros();

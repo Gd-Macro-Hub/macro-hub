@@ -17,9 +17,13 @@
           <img src="${data.thumbnail}" width="300">
           <p><strong>Creator:</strong> ${data.creator}</p>
           <p><strong>Date:</strong> ${data.date}</p>
+          <p><strong>ID:</strong> ${data.id}</p>
           <a href="${data.macro}" download>📥 Download Macro</a><br><br>
           <iframe width="560" height="315" src="${data.ytlink.replace("watch?v=", "embed/")}" frameborder="0" allowfullscreen></iframe>
         `;
+      })
+      .catch(() => {
+        document.getElementById("macroDetail").innerHTML = `<h2>Macro not found.</h2>`;
       });
   </script>
 </body>
