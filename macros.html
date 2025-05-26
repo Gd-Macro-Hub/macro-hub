@@ -9,6 +9,23 @@
   <div id="macroDetail" style="padding: 2rem; color: white;"></div>
 
   <script>
+    // Helper function to convert YouTube URL to embed URL
+    function getYouTubeEmbedURL(url) {
+      try {
+        const urlObj = new URL(url);
+        let videoId = "";
+
+        if (urlObj.hostname === "youtu.be") {
+          videoId = urlObj.pathname.slice(1);
+        } else if (urlObj.hostname.includes("youtube.com")) {
+          videoId = urlObj.searchParams.get("v");
+        }
+        return videoId ? `https://www.youtube.com/embed/${videoId}` : "";
+      } catch {
+        return "";
+      }
+    }
+
     // Get macro ID from URL ?id=abc123
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
@@ -22,6 +39,7 @@
           return res.json();
         })
         .then((data) => {
+          const embedUrl = getYouTubeEmbedURL(data.ytlink);
           document.getElementById("macroDetail").innerHTML = `
             <h1>${data.name}</h1>
             <img src="${data.thumbnail}" alt="Thumbnail" style="max-width: 400px; border-radius: 12px; margin-bottom: 1rem;" />
@@ -30,14 +48,14 @@
             <p><strong>ID:</strong> ${data.id}</p>
             <a href="${data.macro}" download style="color: #00ffd5; font-size: 1.2rem; text-decoration: none;">📥 Download Macro</a>
             <br /><br />
-            <iframe
+            ${embedUrl ? `<iframe
               width="560"
               height="315"
-              src="${data.ytlink.replace('watch?v=', 'embed/')}"
+              src="${embedUrl}"
               frameborder="0"
               allowfullscreen
               style="border-radius: 12px;"
-            ></iframe>
+            ></iframe>` : `<p>No valid YouTube video available.</p>`}
           `;
         })
         .catch(() => {
