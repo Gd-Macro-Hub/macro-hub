@@ -1,14 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
   const macroList = document.getElementById('macroList');
-  const loading = document.getElementById('loading');
+  const loading = document.getElementById('loadingSpinner'); // fixed id here
   const searchInput = document.getElementById('search');
   const sortSelect = document.getElementById('sortSelect');
   const themeToggle = document.getElementById('themeToggle');
 
   let macros = [];
 
-  // Show loading spinner
-  loading.style.display = 'block';
+  // Show loading spinner if it exists
+  if (loading) {
+    loading.style.display = 'block';
+  }
 
   // Fetch list of JSON files in macro-config directory
   fetch('Main/macro-config/index.json')
@@ -22,11 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(data => {
       macros = data;
       displayMacros(macros);
-      loading.style.display = 'none';
+      if (loading) {
+        loading.style.display = 'none';
+      }
     })
     .catch(error => {
       console.error('Error loading macros:', error);
-      loading.textContent = '❌ Failed to load macros.';
+      if (loading) {
+        loading.textContent = '❌ Failed to load macros.';
+      }
     });
 
   // Display macros
