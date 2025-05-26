@@ -7,10 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let macros = [];
 
-  // Show loading spinner
   if (loading) loading.style.display = 'block';
 
-  // Load macro configs
   fetch('Main/macro-config/index.json')
     .then(response => response.json())
     .then(files => {
@@ -29,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (loading) loading.textContent = '❌ Failed to load macros.';
     });
 
-  // Render macros
   function displayMacros(macrosToShow) {
     macroList.innerHTML = '';
 
@@ -39,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.cursor = 'pointer';
 
       const img = document.createElement('img');
-      img.src = macro.thumbnail; // <- assumes path in JSON is like "Main/thumbnails/xyz.jpg"
+      img.src = `Main/${macro.thumbnail}`;
       img.alt = macro.name;
       img.loading = 'lazy';
 
@@ -57,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
       card.appendChild(id);
       card.appendChild(creator);
 
-      // Make the card clickable to open the correct macro
       card.addEventListener('click', () => {
         window.location.href = `macros.html?id=${encodeURIComponent(macro.id)}`;
       });
@@ -70,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Search
   if (searchInput) {
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.toLowerCase();
@@ -81,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Sorting
   if (sortSelect) {
     sortSelect.addEventListener('change', () => {
       const sorted = [...macros];
@@ -94,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Theme toggle
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark');

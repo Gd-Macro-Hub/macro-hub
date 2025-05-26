@@ -31,19 +31,18 @@
 
     iframe {
       max-width: 100%;
-      height: auto;
       aspect-ratio: 16 / 9;
       border-radius: 12px;
-      margin: 2rem 0 0; /* top margin to separate from previous content */
+      margin: 2rem 0 0;
       box-shadow: 0 0 15px #00f0ffaa;
       display: block;
       margin-left: auto;
       margin-right: auto;
     }
 
-    a.download-link {
-      display: inline-block;
-      margin-top: 4rem; /* BIG space below the iframe */
+    a.download-link, a.back-button {
+      display: block;
+      margin: 2.5rem auto 0;
       padding: 0.75rem 1.5rem;
       background: #00ffd5;
       color: #000;
@@ -53,11 +52,10 @@
       border-radius: 12px;
       box-shadow: 0 0 10px #00ffd5;
       transition: background 0.3s ease;
-      margin-left: auto;
-      margin-right: auto;
+      width: fit-content;
     }
 
-    a.download-link:hover {
+    a.download-link:hover, a.back-button:hover {
       background: #00bfa0;
       box-shadow: 0 0 15px #00bfa0;
     }
@@ -96,18 +94,16 @@
         })
         .then((data) => {
           const embedUrl = getYouTubeEmbedURL(data.ytlink);
+          const macroPath = `Main/${data.macro}`;
           document.getElementById("macroDetail").innerHTML = `
             <h1>${data.name}</h1>
-            <img src="${data.thumbnail}" alt="Thumbnail" />
+            <img src="Main/${data.thumbnail}" alt="Thumbnail" />
             <p><strong>Creator:</strong> ${data.creator}</p>
             <p><strong>Date:</strong> ${data.date}</p>
             <p><strong>ID:</strong> ${data.id}</p>
-            ${embedUrl ? `<iframe
-              src="${embedUrl}"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>` : `<p>No valid YouTube video available.</p>`}
-            <a href="${data.macro}" download class="download-link">📥 Download Macro</a>
+            ${embedUrl ? `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>` : `<p>No valid YouTube video available.</p>`}
+            <a href="${macroPath}" download class="download-link">📥 Download Macro</a>
+            <a href="index.html" class="back-button">⬅️ Back to Home</a>
           `;
         })
         .catch(() => {
