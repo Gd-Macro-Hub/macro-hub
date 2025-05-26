@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.cursor = 'pointer';
 
       const img = document.createElement('img');
-      img.src = `/macro-hub/${macro.thumbnail}`;
+      // Remove leading slash here to avoid absolute path issues on GitHub Pages
+      img.src = `macro-hub/${macro.thumbnail}`;
       img.alt = macro.name;
       img.loading = 'lazy';
 
@@ -62,9 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
       card.appendChild(id);
       card.appendChild(creator);
 
-      // Make the card clickable
+      // Make the card clickable with the correct dynamic macro id
       card.addEventListener('click', () => {
-        window.location.href = `macros.html?id=${macro.id}`;
+        window.location.href = `macros.html?id=${encodeURIComponent(macro.id)}`;
       });
 
       macroList.appendChild(card);
