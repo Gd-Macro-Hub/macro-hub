@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(data => {
       macros = data;
+
+      console.log("Loaded macros:", macros.map(m => m.id)); // Debug: list all loaded macro IDs
+
       displayMacros(macros);
+
       if (loading) {
         loading.style.display = 'none';
       }
@@ -36,16 +40,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   // Display macros
-  function displayMacros(macros) {
+  function displayMacros(macrosToShow) {
     macroList.innerHTML = '';
-    macros.forEach(macro => {
+    macrosToShow.forEach(macro => {
+      console.log("Displaying macro:", macro.id); // Debug: confirm IDs when displaying
+
       const card = document.createElement('div');
       card.className = 'card';
       card.style.cursor = 'pointer';
 
+      // Use thumbnail as-is if relative path works, else prefix as needed
+      // If your thumbnails are stored like "Main/thumbnails/thumb1.png" you might need:
+      // img.src = `Main/${macro.thumbnail}`;
+      // But if your JSON has full relative path, just use macro.thumbnail
+
       const img = document.createElement('img');
-      // Remove leading slash here to avoid absolute path issues on GitHub Pages
-      img.src = `macro-hub/${macro.thumbnail}`;
+      img.src = macro.thumbnail.startsWith('http') || macro.thumbnail.startsWith('/')
+        ? macro.thumbnail
+        : `Main/${macro.thumbnail}`;
       img.alt = macro.name;
       img.loading = 'lazy';
 
@@ -63,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.appendChild(id);
       card.appendChild(creator);
 
-      // Make the card clickable with the correct dynamic macro id
+      // Make the card clickable - opens the correct macro detail page
       card.addEventListener('click', () => {
         window.location.href = `macros.html?id=${encodeURIComponent(macro.id)}`;
       });

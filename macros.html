@@ -8,24 +8,24 @@
     body.macro-page {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       min-height: 100vh;
-      padding: 2rem;
+      padding: 3rem 1rem;
       background: linear-gradient(135deg, #1f1c2c, #928dab);
-      color: white;
+      color: #fff;
       text-align: center;
-      flex-direction: column;
     }
 
     .macro-detail {
-      max-width: 700px;
+      max-width: 600px;
       width: 100%;
     }
 
     .macro-detail img {
       max-width: 100%;
+      height: auto;
       border-radius: 12px;
-      margin-bottom: 1rem;
+      margin: 1rem 0;
       box-shadow: 0 0 15px #00f0ffaa;
     }
 
@@ -34,7 +34,7 @@
       height: auto;
       aspect-ratio: 16 / 9;
       border-radius: 12px;
-      margin: 1.5rem 0 4rem; /* bigger bottom margin */
+      margin: 2rem 0 0; /* top margin to separate from previous content */
       box-shadow: 0 0 15px #00f0ffaa;
       display: block;
       margin-left: auto;
@@ -43,12 +43,12 @@
 
     a.download-link {
       display: inline-block;
-      margin-top: 3rem; /* more space below iframe */
+      margin-top: 4rem; /* BIG space below the iframe */
       padding: 0.75rem 1.5rem;
       background: #00ffd5;
       color: #000;
       font-weight: bold;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       text-decoration: none;
       border-radius: 12px;
       box-shadow: 0 0 10px #00ffd5;
@@ -67,7 +67,6 @@
   <div class="macro-detail" id="macroDetail"></div>
 
   <script>
-    // Helper function to convert YouTube URL to embed URL
     function getYouTubeEmbedURL(url) {
       try {
         const urlObj = new URL(url);
@@ -84,7 +83,6 @@
       }
     }
 
-    // Get macro ID from URL ?id=abc123
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
