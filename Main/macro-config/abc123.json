@@ -2,7 +2,7 @@
   "id": "abc123",
   "name": "Insane Aim Assist",
   "macro": "/Main/macros/aimassist.gdr",
-  "thumbnail": "/Main/thumbnails/aimassist.jpg",
+  "thumbnail": "Main/thumbnails/aimassist.jpg",
   "ytlink": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   "creator": "User123",
   "date": "2025-05-25"
