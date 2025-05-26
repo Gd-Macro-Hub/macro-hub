@@ -1,63 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
   const macroList = document.getElementById('macroList');
-  const loading = document.getElementById('loadingSpinner'); // fixed id here
+  const loading = document.getElementById('loadingSpinner');
   const searchInput = document.getElementById('search');
   const sortSelect = document.getElementById('sortSelect');
   const themeToggle = document.getElementById('themeToggle');
 
   let macros = [];
 
-  // Show loading spinner if it exists
-  if (loading) {
-    loading.style.display = 'block';
-  }
+  // Show loading spinner
+  if (loading) loading.style.display = 'block';
 
-  // Fetch list of JSON files in macro-config directory
+  // Load macro configs
   fetch('Main/macro-config/index.json')
     .then(response => response.json())
     .then(files => {
-      const fetchPromises = files.map(file =>
+      const macroPromises = files.map(file =>
         fetch(`Main/macro-config/${file}`).then(res => res.json())
       );
-      return Promise.all(fetchPromises);
+      return Promise.all(macroPromises);
     })
     .then(data => {
       macros = data;
-
-      console.log("Loaded macros:", macros.map(m => m.id)); // Debug: list all loaded macro IDs
-
       displayMacros(macros);
-
-      if (loading) {
-        loading.style.display = 'none';
-      }
+      if (loading) loading.style.display = 'none';
     })
     .catch(error => {
       console.error('Error loading macros:', error);
-      if (loading) {
-        loading.textContent = '❌ Failed to load macros.';
-      }
+      if (loading) loading.textContent = '❌ Failed to load macros.';
     });
 
-  // Display macros
+  // Render macros
   function displayMacros(macrosToShow) {
     macroList.innerHTML = '';
-    macrosToShow.forEach(macro => {
-      console.log("Displaying macro:", macro.id); // Debug: confirm IDs when displaying
 
+    macrosToShow.forEach(macro => {
       const card = document.createElement('div');
       card.className = 'card';
       card.style.cursor = 'pointer';
 
-      // Use thumbnail as-is if relative path works, else prefix as needed
-      // If your thumbnails are stored like "Main/thumbnails/thumb1.png" you might need:
-      // img.src = `Main/${macro.thumbnail}`;
-      // But if your JSON has full relative path, just use macro.thumbnail
-
       const img = document.createElement('img');
-      img.src = macro.thumbnail.startsWith('http') || macro.thumbnail.startsWith('/')
-        ? macro.thumbnail
-        : `Main/${macro.thumbnail}`;
+      img.src = macro.thumbnail; // <- assumes path in JSON is like "Main/thumbnails/xyz.jpg"
       img.alt = macro.name;
       img.loading = 'lazy';
 
@@ -75,26 +57,31 @@ document.addEventListener('DOMContentLoaded', () => {
       card.appendChild(id);
       card.appendChild(creator);
 
-      // Make the card clickable - opens the correct macro detail page
+      // Make the card clickable to open the correct macro
       card.addEventListener('click', () => {
         window.location.href = `macros.html?id=${encodeURIComponent(macro.id)}`;
       });
 
       macroList.appendChild(card);
     });
+
+    if (macrosToShow.length === 0) {
+      macroList.innerHTML = '<p>No macros found.</p>';
+    }
   }
 
-  // Search functionality
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
-    const filtered = macros.filter(macro =>
-      macro.name.toLowerCase().includes(query) ||
-      macro.id.toLowerCase().includes(query)
-    );
-    displayMacros(filtered);
-  });
+  // Search
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      const filtered = macros.filter(m =>
+        m.name.toLowerCase().includes(query) || m.id.toLowerCase().includes(query)
+      );
+      displayMacros(filtered);
+    });
+  }
 
-  // Sort functionality
+  // Sorting
   if (sortSelect) {
     sortSelect.addEventListener('change', () => {
       const sorted = [...macros];
