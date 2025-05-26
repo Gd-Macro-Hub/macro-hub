@@ -4,9 +4,20 @@
   <meta charset="UTF-8" />
   <title>Macro Detail</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    /* Optional: make iframe responsive and centered */
+    iframe {
+      max-width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      margin-top: 1rem;
+      box-shadow: 0 0 15px #00f0ffaa;
+    }
+  </style>
 </head>
-<body>
-  <div id="macroDetail" style="padding: 2rem; color: white;"></div>
+<body class="macro-page">
+  <div class="macro-detail" id="macroDetail"></div>
 
   <script>
     // Helper function to convert YouTube URL to embed URL
@@ -42,19 +53,15 @@
           const embedUrl = getYouTubeEmbedURL(data.ytlink);
           document.getElementById("macroDetail").innerHTML = `
             <h1>${data.name}</h1>
-            <img src="${data.thumbnail}" alt="Thumbnail" style="max-width: 400px; border-radius: 12px; margin-bottom: 1rem;" />
+            <img src="${data.thumbnail}" alt="Thumbnail" />
             <p><strong>Creator:</strong> ${data.creator}</p>
             <p><strong>Date:</strong> ${data.date}</p>
             <p><strong>ID:</strong> ${data.id}</p>
-            <a href="${data.macro}" download style="color: #00ffd5; font-size: 1.2rem; text-decoration: none;">📥 Download Macro</a>
-            <br /><br />
+            <a href="${data.macro}" download>📥 Download Macro</a>
             ${embedUrl ? `<iframe
-              width="560"
-              height="315"
               src="${embedUrl}"
               frameborder="0"
               allowfullscreen
-              style="border-radius: 12px;"
             ></iframe>` : `<p>No valid YouTube video available.</p>`}
           `;
         })
