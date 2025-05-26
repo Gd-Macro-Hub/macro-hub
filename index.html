@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Macro Hub</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <h1>🌌 Macro Hub</h1>
-  <p>Wanna upload your own macros? <a href="https://YOUR_GOOGLE_FORM_LINK" target="_blank">Click here</a> 🚀</p>
+  <p>Wanna upload your own macros? <a href="https://YOUR_FORM_LINK" target="_blank">Click here</a> 🚀</p>
 
   <input type="text" id="search" placeholder="Search macros...">
-  <select id="macroDropdown"></select>
+  <select id="creatorFilter">
+    <option value="">Filter by creator</option>
+  </select>
 
-  <h2>✨ Featured Macros</h2>
-  <div id="featured"></div>
+  <div id="macroList" class="card-container"></div>
 
   <script src="assets/js/loadMacros.js"></script>
 </body>

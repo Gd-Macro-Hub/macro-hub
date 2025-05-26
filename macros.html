@@ -2,26 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Macro Details</title>
+  <title>Macro Detail</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <div id="macroDetail"></div>
-
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-
+    const id = new URLSearchParams(window.location.search).get("id");
     fetch(`Main/macro-config/${id}.json`)
       .then(res => res.json())
       .then(data => {
         document.getElementById("macroDetail").innerHTML = `
           <h1>${data.name}</h1>
-          <img src="${data.thumbnail}" style="width:300px">
+          <img src="${data.thumbnail}" width="300">
           <p><strong>Creator:</strong> ${data.creator}</p>
           <p><strong>Date:</strong> ${data.date}</p>
           <a href="${data.macro}" download>📥 Download Macro</a><br><br>
-          <iframe width="560" height="315" src="${data.ytlink.replace('watch?v=', 'embed/')}" frameborder="0" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="${data.ytlink.replace("watch?v=", "embed/")}" frameborder="0" allowfullscreen></iframe>
         `;
       });
   </script>
