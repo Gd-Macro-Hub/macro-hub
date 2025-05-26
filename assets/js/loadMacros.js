@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('Main/macro-config/index.json')
     .then(response => response.json())
     .then(files => {
-      const fetchPromises = files.map(file => fetch(`Main/macro-config/${file}`).then(res => res.json()));
+      const fetchPromises = files.map(file =>
+        fetch(`Main/macro-config/${file}`).then(res => res.json())
+      );
       return Promise.all(fetchPromises);
     })
     .then(data => {
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(error => {
       console.error('Error loading macros:', error);
-      loading.textContent = 'Failed to load macros.';
+      loading.textContent = '❌ Failed to load macros.';
     });
 
   // Display macros
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     macros.forEach(macro => {
       const card = document.createElement('div');
       card.className = 'card';
+      card.style.cursor = 'pointer';
 
       const img = document.createElement('img');
       img.src = macro.thumbnail;
@@ -48,16 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const creator = document.createElement('p');
       creator.textContent = `Creator: ${macro.creator}`;
 
-      const link = document.createElement('a');
-      link.href = macro.ytlink;
-      link.textContent = 'Watch Video';
-      link.target = '_blank';
-
       card.appendChild(img);
       card.appendChild(title);
       card.appendChild(id);
       card.appendChild(creator);
-      card.appendChild(link);
+
+      // Make the card clickable
+      card.addEventListener('click', () => {
+        window.location.href = `macros.html?id=${macro.id}`;
+      });
 
       macroList.appendChild(card);
     });
@@ -74,18 +76,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Sort functionality
-  sortSelect.addEventListener('change', () => {
-    const sorted = [...macros];
-    if (sortSelect.value === 'newest') {
-      sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
-    } else {
-      sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
-    }
-    displayMacros(sorted);
-  });
+  if (sortSelect) {
+    sortSelect.addEventListener('change', () => {
+      const sorted = [...macros];
+      if (sortSelect.value === 'newest') {
+        sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
+      } else {
+        sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
+      }
+      displayMacros(sorted);
+    });
+  }
 
   // Theme toggle
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-  });
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+    });
+  }
 });

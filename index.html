@@ -7,19 +7,30 @@
 </head>
 <body>
   <h1>🌌 Macro Hub</h1>
-  <p>Wanna upload your own macros? <a href="https://forms.gle/xr5xwMNnVrYL6PUJA" target="_blank" rel="noopener noreferrer">Click here</a> 🚀</p>
 
-  <div class="controls">
-    <input type="text" id="search" placeholder="Search macros by name or ID..." />
-    <select id="sortSelect">
-      <option value="newest">Newest</option>
-      <option value="oldest">Oldest</option>
-    </select>
-    <button id="themeToggle">🌙</button>
+  <!-- Centered Google Forms link -->
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <p style="font-size: 1.1rem;">
+      Wanna upload your own macros? 
+      <a href="https://forms.gle/xr5xwMNnVrYL6PUJA" target="_blank" rel="noopener noreferrer">Click here 🚀</a>
+    </p>
   </div>
 
-  <div id="loading">Loading macros...</div>
+  <!-- Search Bar -->
+  <input
+    type="text"
+    id="search"
+    placeholder="Search macros by name or ID..."
+    style="width: 400px; max-width: 90%; padding: 0.5rem; font-size: 1rem; border-radius: 8px; border: none; margin-bottom: 2.5rem;"
+  />
+
+  <!-- Macro list container -->
   <div id="macroList" class="card-container"></div>
+
+  <!-- Spinner -->
+  <div id="loadingSpinner" style="text-align:center; margin-top:2rem; display:none;">
+    <p>Loading macros...</p>
+  </div>
 
   <script src="assets/js/loadMacros.js"></script>
 </body>
