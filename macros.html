@@ -31,19 +31,19 @@
 
     iframe {
       max-width: 100%;
+      height: auto;
       aspect-ratio: 16 / 9;
       border-radius: 12px;
-      margin: 2rem 0 2rem;
+      margin: 2rem 0 0;
       box-shadow: 0 0 15px #00f0ffaa;
       display: block;
       margin-left: auto;
       margin-right: auto;
     }
 
-    a.download-link,
-    a.back-button {
+    a.download-link {
       display: inline-block;
-      margin-top: 2rem;
+      margin-top: 4rem;
       padding: 0.75rem 1.5rem;
       background: #00ffd5;
       color: #000;
@@ -53,18 +53,22 @@
       border-radius: 12px;
       box-shadow: 0 0 10px #00ffd5;
       transition: background 0.3s ease;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    a.download-link:hover,
-    a.back-button:hover {
+    a.download-link:hover {
       background: #00bfa0;
       box-shadow: 0 0 15px #00bfa0;
     }
 
-    a.back-button {
-      margin-top: 3rem;
-      background: #fff;
-      color: #000;
+    a.back-link {
+      display: block;
+      margin-top: 2rem;
+      text-align: center;
+      color: #00ffd5;
+      text-decoration: underline;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -76,6 +80,7 @@
       try {
         const urlObj = new URL(url);
         let videoId = "";
+
         if (urlObj.hostname === "youtu.be") {
           videoId = urlObj.pathname.slice(1);
         } else if (urlObj.hostname.includes("youtube.com")) {
@@ -100,17 +105,17 @@
         })
         .then((data) => {
           const embedUrl = getYouTubeEmbedURL(data.ytlink);
-          const macroPath = `Main/macros/${data.macro}`;
-          const thumbnailPath = `Main/thumbnails/${data.thumbnail}`;
+          const downloadUrl = `https://Gd-Macro-Hub.github.io/macro-hub/${data.macro}`;
+
           document.getElementById("macroDetail").innerHTML = `
             <h1>${data.name}</h1>
-            <img src="${thumbnailPath}" alt="Thumbnail" />
+            <img src="${data.thumbnail}" alt="Thumbnail" />
             <p><strong>Creator:</strong> ${data.creator}</p>
             <p><strong>Date:</strong> ${data.date}</p>
             <p><strong>ID:</strong> ${data.id}</p>
             ${embedUrl ? `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>` : `<p>No valid YouTube video available.</p>`}
-            <a href="${macroPath}" download class="download-link">📥 Download Macro</a>
-            <a href="index.html" class="back-button">⬅️ Back to Home</a>
+            <a href="${downloadUrl}" download class="download-link">📥 Download Macro</a>
+            <a href="index.html" class="back-link">🔙 Back to Home</a>
           `;
         })
         .catch(() => {
