@@ -43,7 +43,7 @@
 
     a.download-link {
       display: inline-block;
-      margin-top: 4rem;
+      margin-top: 3rem;
       padding: 0.75rem 1.5rem;
       background: #00ffd5;
       color: #000;
@@ -113,6 +113,8 @@
             <p><strong>Creator:</strong> ${data.creator}</p>
             <p><strong>Date:</strong> ${data.date}</p>
             <p><strong>ID:</strong> ${data.id}</p>
+            <p><strong>Level Name:</strong> ${data.level_name || 'N/A'}</p>
+            <p><strong>Level ID:</strong> ${data.level_id || 'N/A'}</p>
             ${embedUrl ? `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>` : `<p>No valid YouTube video available.</p>`}
             <a href="${downloadUrl}" download class="download-link">📥 Download Macro</a>
             <a href="index.html" class="back-link">🔙 Back to Home</a>
