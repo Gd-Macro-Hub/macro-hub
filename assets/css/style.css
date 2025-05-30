@@ -105,18 +105,17 @@ h1 {
   font-size: 0.9rem;
 }
 
-/* === Added for macro detail page centering === */
-
+/* === Fluent gradient for macro detail page === */
 body.macro-page {
   display: flex;
-  justify-content: center;  /* horizontal center */
-  align-items: flex-start;  /* top vertical alignment */
+  justify-content: center;
+  align-items: flex-start;
   min-height: 100vh;
   padding: 3rem 1rem;
-  text-align: center;       /* center all text inside */
-  background: linear-gradient(135deg, #1f1c2c, #928dab); /* keep your bg */
+  text-align: center;
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
   background-attachment: fixed;
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   color: #fff;
